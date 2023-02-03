@@ -1,0 +1,19 @@
+--2023-01-26 10:45:58--  https://www.proxmox.com/en/downloads?task=callelement
+Resolviendo www.proxmox.com (www.proxmox.com)... 212.224.123.69, 2a01:7e0:0:424::12
+Conectando con www.proxmox.com (www.proxmox.com)[212.224.123.69]:443... conectado.
+Petición HTTP enviada, esperando respuesta... 301 Moved Permanently
+Ubicación: https://www.proxmox.com/downloads [siguiente]
+--2023-01-26 10:45:59--  https://www.proxmox.com/downloads
+Reutilizando la conexión con www.proxmox.com:443.
+Petición HTTP enviada, esperando respuesta... 301 Moved Permanently
+Ubicación: https://www.proxmox.com/en/downloads [siguiente]
+--2023-01-26 10:46:00--  https://www.proxmox.com/en/downloads
+Reutilizando la conexión con www.proxmox.com:443.
+Petición HTTP enviada, esperando respuesta... 200 OK
+Longitud: no especificado [text/html]
+Guardando como: “downloads?task=callelement”
+
+downloads?task=callelement                               [<=>                                                                                                                   ]       0  --.-KB/s               downloads?task=callelement                               [ <=>                                                                                                                  ]  38,31K  --.-KB/s    en 0,001s  
+
+2023-01-26 10:46:00 (46,5 MB/s) - “downloads?task=callelement” guardado [39226]
+
