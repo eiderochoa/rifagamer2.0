@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
-
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -42,6 +42,14 @@ def testEndPoint(request):
         return Response({'response': data}, status=status.HTTP_200_OK)
     return Response({}, status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProfile(request):
+    user = request.user
+    userSerialized = UserSerializer(user, many=False)
+    return Response({'response':userSerialized.data}, status=status.HTTP_200_OK)
+
+
 #### Gestion de Usuarios #####
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
@@ -49,3 +57,15 @@ def listUsers(request):
     users = User.objects.all()
     usersSerializerds = UserSerializer(users, many=True)
     return Response({'response':usersSerializerds.data}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def delUser(request, pk):
+    if pk:
+        try:
+            user = User.objects.get(id=pk)
+            user.delete()
+            return Response({'msg':'Done'}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({'msg': 'User not exist'}, status=status.HTTP_404_NOT_FOUND)
+

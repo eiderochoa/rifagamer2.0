@@ -11,6 +11,8 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', RegisterView.as_view(), name='auth_register'),
     path("test/", testEndPoint, name="test"),
+    path("profile/", getUserProfile, name="profile"),
     path("listusers/", listUsers, name="listusers"),
+    path("deluser/<int:pk>", delUser, name="deluser"),
     path('', getRoutes)
 ]
