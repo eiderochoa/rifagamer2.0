@@ -15,11 +15,6 @@ from django.core.exceptions import ObjectDoesNotExist
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (IsAdminUser,)
-    serializer_class = RegisterSerializer
-
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
@@ -51,6 +46,11 @@ def getUserProfile(request):
 
 
 #### Gestion de Usuarios #####
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = RegisterSerializer
+
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def listUsers(request):
