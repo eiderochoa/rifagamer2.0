@@ -10,6 +10,7 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.views import APIView
 # Create your views here.
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -43,6 +44,20 @@ def getUserProfile(request):
     user = request.user
     userSerialized = UserSerializer(user, many=False)
     return Response({'response':userSerialized.data}, status=status.HTTP_200_OK)
+
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 #### Gestion de Usuarios #####
