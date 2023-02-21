@@ -15,5 +15,6 @@ urlpatterns = [
     path("profile/", getUserProfile, name="profile"),
     path("listusers/", listUsers, name="listusers"),
     path("deluser/<int:pk>", delUser, name="deluser"),
+    path("upduser/<int:pk>", UpdUser.as_view(), name="upduser"),
     path('', getRoutes)
 ]

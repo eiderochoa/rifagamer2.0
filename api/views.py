@@ -84,3 +84,25 @@ def delUser(request, pk):
         except ObjectDoesNotExist:
             return Response({'msg': 'User not exist'}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def updUser(request):
+    if request.POST.get('id'):
+        try:
+            user = User.objects.gte(id=request.POST.get('id'))
+            user.username = request.POST.get('username')
+            user.first_name = request.POST.get('first_name')
+            user.last_name = request.POST.get('last_name')
+            user.email = request.POST.get('email')
+            user.is_staff = request.POST.get('is_staff')
+            user.is_active = request.POST.get('is_active')
+            user.save()
+            return Response({'msg':'Done'}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({'msg': 'User not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+class UpdUser(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = UserSerializer
+    lookup_field = 'pk'
