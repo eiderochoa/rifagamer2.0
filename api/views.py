@@ -4,10 +4,10 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import JsonResponse
-from api.serializer import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
+from api.serializer import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
@@ -106,3 +106,41 @@ class UpdUser(generics.UpdateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = UserSerializer
     lookup_field = 'pk'
+
+### Groups ###
+
+class ListGroups(generics.ListAPIView):
+    queryset = Group.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = GroupSerializer
+
+class CreateGroup(generics.CreateAPIView):
+    queryset = Group.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = GroupSerializer
+
+class DetailGroup(generics.RetrieveAPIView):
+    queryset = Group.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = GroupSerializer
+
+class UpdateGroup(generics.UpdateAPIView):
+    queryset = Group.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = GroupSerializer
+
+class DeleteGroup(generics.DestroyAPIView):
+    queryset = Group.objects.all()
+    permission_classes = (IsAdminUser,)
+    serializer_class = GroupSerializer
+
+### Permissions ###
+class ListPermissions(generics.ListAPIView):
+    queryset = Permission.objects.all()
+    permission_classes(IsAdminUser,)
+    serializer_class = PermissionSerializer
+
+class DetailPermission(generics.RetrieveAPIView):
+    queryset = Permission.objects.all()
+    permission_classes(IsAdminUser,)
+    serializer_class = PermissionSerializer
