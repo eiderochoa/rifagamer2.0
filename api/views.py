@@ -116,7 +116,7 @@ class ListGroups(generics.ListAPIView):
 
 class CreateGroup(generics.CreateAPIView):
     queryset = Group.objects.all()
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
     serializer_class = GroupSerializer
 
 class DetailGroup(generics.RetrieveAPIView):
