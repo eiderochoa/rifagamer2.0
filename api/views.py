@@ -107,11 +107,18 @@ class UpdUser(generics.UpdateAPIView):
     serializer_class = UserSerializer
     lookup_field = 'pk'
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserGroups(request):
+    queryset = request.user.groups.all()
+    groups = GroupSerializer(queryset, many=True)
+    return JsonResponse(data=groups.data, status=status.HTTP_200_OK, safe=False)
+
 ### Groups ###
 
 class ListGroups(generics.ListAPIView):
     queryset = Group.objects.all()
-    permission_classes = (IsAdminUser,)
+    #permission_classes = (IsAdminUser,)
     serializer_class = GroupSerializer
 
 class CreateGroup(generics.CreateAPIView):
