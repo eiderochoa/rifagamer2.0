@@ -11,6 +11,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
+import json
 # Create your views here.
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -113,6 +114,38 @@ def getUserGroups(request):
     queryset = request.user.groups.all()
     groups = GroupSerializer(queryset, many=True)
     return JsonResponse(data=groups.data, status=status.HTTP_200_OK, safe=False)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def getUsersGroups(request,pk):
+    if pk:
+        user = User.objects.get(id=pk)
+        groups = GroupSerializer(user.groups.all(), many=True)
+        return JsonResponse(data=groups.data, status=status.HTTP_200_OK, safe=False)
+    else:
+        return JsonResponse(data={'msg':'No user has provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, IsAdminUser])
+def setUserGroup(request):
+    jsonData = json.loads(request.body)
+    print(jsonData)
+    # return JsonResponse(data={'msg':'done'}, status=status.HTTP_200_OK)
+    if jsonData['userId']:
+        user = User.objects.get(id=jsonData['userId'])
+        if jsonData['groups']:
+            for group in jsonData['groups']:
+                if not user.groups.filter(name=[group]):
+                    grp = Group.objects.get(name=group)
+                    user.groups.add(grp)
+            return JsonResponse(data={'msg':'done'}, status=status.HTTP_200_OK)
+        else:
+            return JsonResponse(data={'msg':'No groups are specified'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return JsonResponse(data={'msg':'No user are specified'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 ### Groups ###
 

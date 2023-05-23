@@ -17,6 +17,8 @@ urlpatterns = [
     path("deluser/<int:pk>", delUser, name="deluser"),
     path("upduser/<int:pk>", UpdUser.as_view(), name="upduser"),
     path("getusergroups/", getUserGroups),
+    path("getusersgroups/<int:pk>/", getUsersGroups),
+    path("setusergroups/", setUserGroup),
     ## Groups ##
     path("groups/", ListGroups.as_view()),
     path("addgroup/", CreateGroup.as_view()),
